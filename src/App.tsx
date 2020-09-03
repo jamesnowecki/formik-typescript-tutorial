@@ -1,8 +1,14 @@
 import React from 'react';
 import styles from './App.module.scss';
-import { Formik, Field } from "formik";
+import { Formik, Field, ErrorMessage } from "formik";
+import { string, object } from "yup";
 
-const initialValues = {
+export interface FormValues {
+  firstName: string;
+  pet: string;
+}
+
+const initialValues: FormValues = {
   firstName: "",
   pet: "",
 };
@@ -12,12 +18,21 @@ const App: React.SFC = () => {
     <div className={styles.App}>
       <h1>Working with Formik</h1>
       <Formik initialValues={initialValues}
-        onSubmit={(values) => console.log(values)}
-        render={({ handleSubmit }) => (
+        onSubmit={(values: FormValues) => console.log(values)}
+        validationSchema={object().shape({
+          firstName: string().required("Enter name plz"),
+        })}
+        >
+        {({ handleSubmit, errors, touched }) => (
           <form onSubmit={handleSubmit}>
             <label htmlFor="firstName">
               <div>First Name</div>
               <Field type="text" name="firstName"/>
+              {
+                touched.firstName && errors.firstName
+              ? <div>{errors.firstName}</div>
+              : null
+              }
             </label>
             <label htmlFor="pet">
               <div>Pet</div>
@@ -29,9 +44,11 @@ const App: React.SFC = () => {
             </label>
             <button type="submit">Submit</button>
           </form>
-        )}></Formik>
+        )}</Formik>
     </div>
   );
 }
+
+
 
 export default App;
