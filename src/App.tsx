@@ -1,24 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styles from './App.module.scss';
+import { Formik } from "formik";
 
-function App() {
+const initialValues = {
+  firstName: "",
+  pet: "",
+};
+
+const App: React.SFC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={styles.App}>
+      <h1>Working with Formik</h1>
+      <Formik initialValues={initialValues}
+        onSubmit={(values) => console.log(values)}
+        render={({ handleSubmit, handleChange}) => (
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="firstName">
+              <div>First Name</div>
+              <input type="text" name="firstName"/>
+            </label>
+            <label htmlFor="pet">
+              <div>Pet</div>
+              <select name="pet" onChange={handleChange}>
+                <option>Dog</option>
+                <option>Cat</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <button type="submit">Submit</button>
+          </form>
+        )}></Formik>
     </div>
   );
 }
