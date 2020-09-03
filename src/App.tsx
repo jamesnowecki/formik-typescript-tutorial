@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './App.module.scss';
-import { Formik } from "formik";
+import { Formik, Field } from "formik";
 
 const initialValues = {
   firstName: "",
@@ -13,19 +13,19 @@ const App: React.SFC = () => {
       <h1>Working with Formik</h1>
       <Formik initialValues={initialValues}
         onSubmit={(values) => console.log(values)}
-        render={({ handleSubmit, handleChange}) => (
+        render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <label htmlFor="firstName">
               <div>First Name</div>
-              <input type="text" name="firstName"/>
+              <Field type="text" name="firstName"/>
             </label>
             <label htmlFor="pet">
               <div>Pet</div>
-              <select name="pet" onChange={handleChange}>
+              <Field name="pet" component="select">
                 <option>Dog</option>
                 <option>Cat</option>
                 <option>Other</option>
-              </select>
+              </Field>
             </label>
             <button type="submit">Submit</button>
           </form>
